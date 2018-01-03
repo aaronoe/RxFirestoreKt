@@ -1,17 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 27
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.1.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -34,6 +35,75 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.1.6"
     implementation 'com.google.firebase:firebase-firestore:11.8.0'
 }
+
 repositories {
     mavenCentral()
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+group = 'de.aaronoe'
+version = android.defaultConfig.versionName
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'RxFirestoreKt'
+            description 'A set of kotlin extension functions that makes working with Firebase\'s Firestore easier by wrapping it with RxJava types'
+            url 'https://github.com/aaronoe/RxFirestoreKt'
+            inceptionYear '2017'
+
+            packaging 'aar'
+            groupId 'de.aaronoe'
+            artifactId 'rxfirestorekt'
+            version android.defaultConfig.versionName
+
+            licenses {
+                license {
+                    name 'The MIT License (MIT)'
+                    url 'https://opensource.org/licenses/MIT'
+                }
+            }
+            scm {
+                connection 'https://github.com/aaronoe/RxFirestoreKt.git'
+                url 'https://github.com/aaronoe/RxFirestoreKt'
+
+            }
+            developers {
+                developer {
+                    id = 'aaronoe'
+                    name 'Aaron'
+                }
+            }
+        }
+    }
+}
+
+Properties bintrayProperties = new Properties()
+bintrayProperties.load(project.rootProject.file('bintray.properties').newDataInputStream())
+
+bintray {
+    user = bintrayProperties.getProperty('user')
+    key = bintrayProperties.get('key')
+    configurations = ['archives']
+    pkg {
+        repo = 'android'
+        name = 'RxFirestoreKt'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/aaronoe/RxFirestoreKt.git'
+        publish = true
+        version {
+            name = android.defaultConfig.versionName
+            desc = 'RxFirestoreKt ' + android.defaultConfig.versionName
+            released = new Date()
+            vcsTag = 'v' + android.defaultConfig.versionName
+        }
+    }
 }
