@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/aaronoe/android/RxFirestoreKt/images/download.svg) ](https://bintray.com/aaronoe/android/RxFirestoreKt/_latestVersion)
+
 # RxFirestoreKt
 A set of extension functions to wrap Firebase's Firestore Android SDK with RxJava sugar.
 
@@ -33,13 +35,13 @@ Maven:
 <dependency>
   <groupId>de.aaronoe</groupId>
   <artifactId>rxfirestorekt</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <type>pom</type>
 </dependency>
 ```
 or Gradle:
 ```groovy
-compile 'de.aaronoe:rxfirestorekt:0.1.0'
+compile 'de.aaronoe:rxfirestorekt:0.1.1'
 ```
 
 
